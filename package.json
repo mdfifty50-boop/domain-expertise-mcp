@@ -1,6 +1,11 @@
 {
   "name": "domain-expertise-mcp",
   "version": "0.1.0",
+  "mcpName": "io.github.mdfifty50-boop/domain-expertise",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mdfifty50-boop/domain-expertise-mcp"
+  },
   "description": "MCP server that injects structured professional domain expertise into AI agents — decision frameworks, compliance workflows, and practitioner knowledge for accounting, legal, medical, Islamic finance, cybersecurity, and 19 more domains",
   "type": "module",
   "main": "src/index.js",
