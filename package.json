@@ -1,7 +1,7 @@
 {
   "name": "domain-expertise-mcp",
   "version": "0.1.0",
-  "description": "MCP server that injects structured professional domain expertise into AI agents — accounting, legal, medical, Islamic finance, real estate, and more",
+  "description": "MCP server that injects structured professional domain expertise into AI agents — decision frameworks, compliance workflows, and practitioner knowledge for accounting, legal, medical, Islamic finance, cybersecurity, and 19 more domains",
   "type": "module",
   "main": "src/index.js",
   "bin": {
@@ -24,7 +24,10 @@
     "medical",
     "islamic-finance",
     "real-estate",
-    "industry-knowledge",
+    "decision-framework",
+    "compliance-workflow",
+    "cybersecurity",
+    "healthcare",
     "model-context-protocol"
   ],
   "license": "MIT",
