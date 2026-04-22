@@ -1,0 +1,37 @@
+{
+  "name": "domain-expertise-mcp",
+  "version": "0.1.0",
+  "description": "MCP server that injects structured professional domain expertise into AI agents — accounting, legal, medical, Islamic finance, real estate, and more",
+  "type": "module",
+  "main": "src/index.js",
+  "bin": {
+    "domain-expertise-mcp": "src/index.js"
+  },
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "node --watch src/index.js",
+    "test": "node --test src/**/*.test.js"
+  },
+  "keywords": [
+    "mcp",
+    "mcp-server",
+    "domain-expertise",
+    "professional-knowledge",
+    "ai-agent",
+    "knowledge-injection",
+    "accounting",
+    "legal",
+    "medical",
+    "islamic-finance",
+    "real-estate",
+    "industry-knowledge",
+    "model-context-protocol"
+  ],
+  "license": "MIT",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.12.0"
+  }
+}
