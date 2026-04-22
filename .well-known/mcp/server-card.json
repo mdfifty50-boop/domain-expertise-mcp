@@ -27,9 +27,9 @@
   "pricing": {
     "free_tier": true,
     "free_limit": "3 domains, 100 queries/month",
-    "starter": "$29/month",
-    "pro": "$149/month",
-    "enterprise": "$599/month"
+    "starter": "$29/month — all 24 domains, 2K queries",
+    "pro": "$149/month — unlimited queries, decision trees",
+    "enterprise": "$599/month — custom domains, SLA"
   },
   "install": {
     "npm": "npx domain-expertise-mcp",
