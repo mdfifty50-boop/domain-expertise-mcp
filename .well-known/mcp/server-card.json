@@ -1,0 +1,45 @@
+{
+  "serverInfo": {
+    "name": "domain-expertise-mcp",
+    "version": "0.1.0",
+    "description": "Inject structured professional domain expertise into AI agents — accounting, Islamic finance, cybersecurity, legal, real estate, healthcare, and 15+ more domains with decision frameworks and workflows",
+    "author": "THRONE AI",
+    "license": "MIT",
+    "homepage": "https://github.com/mdfifty50-boop/domain-expertise-mcp",
+    "repository": "https://github.com/mdfifty50-boop/domain-expertise-mcp"
+  },
+  "capabilities": {
+    "tools": [
+      { "name": "get_domain_expertise", "description": "Get structured professional expertise at overview/practitioner/expert depth" },
+      { "name": "list_available_domains", "description": "List all 24 available professional domains" },
+      { "name": "get_decision_tree", "description": "Get step-by-step decision logic for professional scenarios" },
+      { "name": "get_terminology", "description": "Professional terms with definitions in English and Arabic" },
+      { "name": "get_regulatory_context", "description": "Regulatory bodies, laws, and compliance requirements by jurisdiction" },
+      { "name": "assess_complexity", "description": "Score task complexity and recommend agent capability level" },
+      { "name": "get_professional_workflow", "description": "Standard professional workflows with quality checkpoints" }
+    ],
+    "resources": [
+      { "uri": "expertise://domains", "description": "Catalog of all 24 professional domains with coverage details" }
+    ]
+  },
+  "categories": ["knowledge", "education", "finance", "legal", "healthcare", "developer-tools"],
+  "keywords": ["domain-expertise", "professional-knowledge", "accounting", "islamic-finance", "cybersecurity", "legal", "knowledge-injection"],
+  "pricing": {
+    "free_tier": true,
+    "free_limit": "3 domains, 100 queries/month",
+    "starter": "$29/month",
+    "pro": "$149/month",
+    "enterprise": "$599/month"
+  },
+  "install": {
+    "npm": "npx domain-expertise-mcp",
+    "claude_desktop": {
+      "mcpServers": {
+        "domain-expertise": {
+          "command": "npx",
+          "args": ["domain-expertise-mcp"]
+        }
+      }
+    }
+  }
+}
