@@ -3,15 +3,45 @@
 import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js';
 import { z } from 'zod';
+import { readFileSync } from 'node:fs';
+import { fileURLToPath } from 'node:url';
+import { dirname, join } from 'node:path';
 import { getDomainExpertise, listDomains, getDomainDecisionTree } from './tools/expertise.js';
 import { getRegulatory, getTerminology } from './tools/reference.js';
 import { assessComplexity, getWorkflow } from './tools/workflow.js';
 
+const __dirname = dirname(fileURLToPath(import.meta.url));
+const pkg = JSON.parse(readFileSync(join(__dirname, '..', 'package.json'), 'utf8'));
+const startTime = Date.now();
+let toolCallCount = 0;
+
+function wrap(fn) {
+  return async (...args) => {
+    toolCallCount++;
+    try { return await fn(...args); }
+    catch (e) { return { content: [{ type: 'text', text: JSON.stringify({ error: e.message }) }] }; }
+  };
+}
+
 const server = new McpServer({
   name: 'domain-expertise-mcp',
-  version: '0.1.0',
+  version: pkg.version,
   description: 'Inject structured professional domain expertise into AI agents — decision frameworks, terminology, workflows, and regulatory knowledge across 15+ industries',
 });
+
+// ═══════════════════════════════════════════
+// HEALTH CHECK
+// ═══════════════════════════════════════════
+
+server.tool('health_check', 'Returns server health, uptime, version, and usage stats', {},
+  async () => ({
+    content: [{ type: 'text', text: JSON.stringify({
+      status: 'healthy', server: 'domain-expertise-mcp', version: pkg.version,
+      uptime_seconds: Math.floor((Date.now() - startTime) / 1000),
+      tool_calls_served: toolCallCount, tools_available: 7, stateless: true,
+    }, null, 2) }],
+  })
+);
 
 // ═══════════════════════════════════════════
 // DOMAIN EXPERTISE TOOLS
@@ -37,14 +67,14 @@ server.tool(
     region: z.enum(['global', 'gcc', 'mena', 'eu', 'us', 'uk', 'asia']).default('global').describe('Regional context for jurisdiction-specific knowledge'),
     focus_area: z.string().optional().describe('Specific sub-area to focus on (e.g., "transfer pricing" within tax, "sharia compliance" within islamic_finance)'),
   },
-  async (params) => getDomainExpertise(params)
+  wrap((params) => getDomainExpertise(params))
 );
 
 server.tool(
   'list_available_domains',
   'List all available professional domains with descriptions and coverage depth.',
   {},
-  async () => listDomains()
+  wrap(() => listDomains())
 );
 
 server.tool(
@@ -55,7 +85,7 @@ server.tool(
     scenario: z.string().describe('The specific scenario or question to get a decision tree for (e.g., "Should I register for VAT?", "Is this transaction Sharia-compliant?", "How to classify this lease?")'),
     jurisdiction: z.string().optional().describe('Jurisdiction for regulatory decisions'),
   },
-  async (params) => getDomainDecisionTree(params)
+  wrap((params) => getDomainDecisionTree(params))
 );
 
 // ═══════════════════════════════════════════
@@ -70,7 +100,7 @@ server.tool(
     terms: z.array(z.string()).optional().describe('Specific terms to define. If empty, returns the top 20 essential terms for the domain.'),
     language: z.enum(['en', 'ar', 'both']).default('en').describe('Language for definitions'),
   },
-  async (params) => getTerminology(params)
+  wrap((params) => getTerminology(params))
 );
 
 server.tool(
@@ -81,7 +111,7 @@ server.tool(
     jurisdiction: z.string().describe('Country or region code (e.g., SA, AE, KW, US, UK, EU)'),
     topic: z.string().optional().describe('Specific regulatory topic (e.g., "anti-money laundering", "data protection", "employment contracts")'),
   },
-  async (params) => getRegulatory(params)
+  wrap((params) => getRegulatory(params))
 );
 
 // ═══════════════════════════════════════════
@@ -96,7 +126,7 @@ server.tool(
     task_description: z.string().describe('Description of the task to assess'),
     stakes: z.enum(['low', 'medium', 'high', 'critical']).default('medium').describe('What is at stake if the task is done incorrectly'),
   },
-  async (params) => assessComplexity(params)
+  wrap((params) => assessComplexity(params))
 );
 
 server.tool(
@@ -107,7 +137,7 @@ server.tool(
     task: z.string().describe('The professional task (e.g., "financial audit", "contract review", "clinical diagnosis", "property valuation")'),
     experience_level: z.enum(['junior', 'mid', 'senior', 'partner']).default('senior').describe('Experience level to calibrate the workflow for'),
   },
-  async (params) => getWorkflow(params)
+  wrap((params) => getWorkflow(params))
 );
 
 // ═══════════════════════════════════════════
