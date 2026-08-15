@@ -4,6 +4,7 @@ Inject structured professional domain expertise into AI agents. Accounting, Isla
 
 [![npm version](https://img.shields.io/npm/v/domain-expertise-mcp)](https://www.npmjs.com/package/domain-expertise-mcp)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![SafeSkill 96/100](https://img.shields.io/badge/SafeSkill-96%2F100_Verified%20Safe-brightgreen)](https://safeskill.dev/scan/mdfifty50-boop-domain-expertise-mcp)
 
 ## Why This Exists
 
